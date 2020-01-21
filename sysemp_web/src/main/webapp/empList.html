@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>商品登录页</title>
+    <link href="static/commons/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="static/commons/datatable/DataTables-1.10.18/css/dataTables.bootstrap.min.css"/>
+    <link href="static/commons/fileinput/css/fileinput.min.css" rel="stylesheet"/>
+    <link href="static/commons/ztree/css/bootstrapStyle/bootstrapStyle.css" rel="stylesheet"/>
+    <link href="static/commons/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css" rel="stylesheet"/>
+    <link href="static/commons/bootstrapvalidator-master/dist/css/bootstrapValidator.min.css" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="static/commons/ace/css/font-awesome.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="static/commons/ace/css/ionicons.css"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="static/commons/ace/css/AdminLTE.css"/>
+    <link rel="stylesheet" href="static/commons/ace/css/skins/skin-blue.min.css"/>
+    <link rel="stylesheet" href="static/commons/ace/css/myCommon.css"/>
+    <link rel="stylesheet" href="static/commons/layui/css/layui.css"/>
+
+
+    <script type="text/javascript" src="static/commons/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="static/commons/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/commons/datatable/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="static/commons/datatable/DataTables-1.10.18/js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="static/commons/dateFormat.js"></script>
+    <script type="text/javascript" src="static/commons/js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="static/commons/bootbox/bootbox.min.js"></script>
+    <script type="text/javascript" src="static/commons/fileinput/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="static/commons/fileinput/js/locales/zh.js"></script>
+    <script type="text/javascript" src="static/commons/ztree/js/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="static/commons/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="static/commons/bootstrapvalidator-master/dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="static/commons/layui/layui.all.js" charset="utf-8"></script>
+
+    <!-- bootstrap-time -->
+    <link rel="stylesheet" href="static/commons/datetimepicker/css/bootstrap-datetimepicker.css"/>
+    <script src="static/commons/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="static/commons/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+</head>
+<style type="text/css">
+    .table > tbody > tr > td {
+        text-align: center!important;
+    }
+
+    /* dataTables表头居中 */
+    .table > thead:first-child > tr:first-child > th {
+        text-align: center!important;;
+    }
+    .tiaojian{
+        margin-top: 30px;margin-left: 15px
+    }
+</style>
+
+</head>
+<body>
+<div class="panel panel-info">
+
+    <!--*******************************************条件查询****************************-->
+    <!-- Default panel contents -->
+    <div class="panel-body">
+        <form class="form-horizontal" id="searchForm">
+
+            <div class="row tiaojian" >
+                <div class="form-inline">
+                    <div class="form-group col-md-3">
+                        <label>商品名</label>
+                        <input type="text" class="form-control" id="name"/>
+                    </div>
+                    <div class="form-group  col-md-3">
+                        <label class="control-label">是否上架:</label>
+                        <label class="radio-inline ">
+                            <input type="radio" name="sex" value="1"/>是
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="2"/>否 </label>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>价格</label>
+                        <input type="text" class="form-control" id=""/>-
+                        <input type="text" class="form-control" id="ne"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row tiaojian" >
+                <div class="form-inline">
+                    <div class="form-group  col-md-6">
+                        <label class="control-label" >日期:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control producedDate"  id="startDate">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span> </div>
+                            <input type="text" class="form-control  expiredDate" id="endDate" >
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 tiaojian" >
+                        <button type="button" class="btn btn-primary" onclick="searchForm()">查询</button>
+                        <button type="reset" class="btn btn-primary ">重置</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </form>
+    </div>
+    <!--*******************************************************************************-->
+
+    <!--*******************************************表格展示****************************-->
+
+    <div class="panel-heading">
+        <div>
+            <center><h1>商品明细表</h1></center>
+        </div>
+        <div class="panel-body" style="overflow: scroll;height:70%">
+            <table id="drugTable" style="width: 100%" class="table table-bordered table-striped"></table>
+        </div>
+        <div class="rows">
+            <button class="btn btn-primary" type="button" onclick="openAdd()" id="toolBar">
+                <i class="glyphicon glyphicon-plus"></i>
+                添加
+            </button>
+        </div>
+    </div>
+    <!--*******************************************************************************-->
+
+
+    <!--*******************************************添加与批删****************************-->
+    <!-- 		showTable row -->
+
+    <!--*******************************************************************************-->
+</div>
+
+
+
+
+
+<script type="text/javascript" >
+
+
+    /*******************************************数据展示******************************/
+    $(function(){
+        drugTables;
+    })
+    var drugTables =$("#drugTable").DataTable({
+        "autoWidth": true,           //自适应宽度
+        "info": true,                //展示左下角分页信息
+        "lengthChange": false,        //是够改变每页条数
+        "lengthMenu": [8],    //设置改变条数
+        "ordering": false,           //是否开启自动排序
+        "paging": true,              //是否允许开启本地分页
+        "processing": true,          //是否开启先处理状态
+        "serverSide": true,          //true是服务器模式  false是客户端模式
+        "ajax": {
+            url: "http://localhost:8088/queryOrder",
+            type: "post",
+            "dataSrc": function (result) {
+                alert(JSON.stringify(result))
+                return result.data;
+            }
+        },
+        // 与<table>标签中的<th>标签内的字段对应
+        columns: [
+            {
+                data: "orderId", "title": "订单编号"
+            }, {
+                data: "pname", "title": "商品名称"
+            },{
+                data: "count", "title": "购买数量"
+            }, {
+                data: "price", "title": "商品价格"
+            },  {
+                data: "subtotal", "title": "小计"
+            },
+            {
+                "title": "操作", "data": "orderId", render: function (data, type, row, meta) {
+                    return ' <button class="btn btn-danger" type="button" onclick="delDrug('+data+')">\n' +
+                        '                <i class="glyphicon glyphicon-minus"></i>\n' +
+                        '                删除\n' +
+                        '            </button>' +
+                        '\n' +
+                        '            <button class="btn btn-warning" type="button" onclick="updateDrug('+data+')">\n' +
+                        '            <i class="glyphicon glyphicon-pencil"></i>\n' +
+                        '            修改\n' +
+                        '        </button>';
+                }
+            }
+
+        ],
+        // 语言
+        "language": {
+
+            "sProcessing": "处理中...",
+            "sLengthMenu": "显示 _MENU_ 项结果",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+        },
+    })
+
+    /***********************************************************************************/
+
+
+    /*******************************************添加************************************/
+    //添加
+    function openAdd(){
+        var url="addOrder.html";//模态窗口信息来自于addGoods.jsp
+        bootbox.dialog({
+            title:'添加商品',
+            message:createAddContent(url),//内容来源于url
+            closeButton: true,
+            buttons : {//页面下面产生保存 取消两个按钮
+                "success": {
+                    "label":"<iclass='icon-ok'></i> 保存",
+                    "className":"btn-sm btn-success",
+                    "callback": function() {
+                        $.ajax({
+                            url:'http://localhost:8088/addOrder',//saveGoods返回boolean型的json
+                            type:'post',
+                            data:$("#addForm").serialize(),//模态展示页面的数据提交保存，模态展示的form ID
+                            dataType:'json',
+                            success:function(){//boolean型的data，true就执行刷新table
+                                search();
+                            }
+                        });
+                    }
+                },
+                "cancel": {
+                    "label":"<iclass='icon-info'></i> 取消",
+                    "className":"btn-sm btn-danger",
+                    "callback": function() {
+                    }
+                }
+            }
+        });
+        inputfile();
+        var res;
+        function createAddContent(url){
+            $.ajax({
+                url:url,
+                async:false,
+                success:function(data){
+                    res = data;
+                }
+            });
+            return res;
+        }
+    }
+
+    //重置功能
+    function resetForm(){
+        $("#form1")[0].reset();//重置表单
+        search();//再次加载不带条件的table
+    }
+
+    //搜索--条件查询table
+    function search(){
+        drugTables.draw( false )//refresh刷新方法；实际就是再次载入bootstrapTable
+        //$('#drugTables').bootstrapTable//中有参数，则是条件查询，没有条件，展示全部
+    }
+
+    /***********************************************************************************/
+
+    /*******************************************修改************************************/
+    function updateDrug(orderId){
+        $.ajax({
+            url:'http://localhost:8088/orderIdUpById',//saveGoods返回boolean型的json
+            type:'post',
+            data:{"orderId":orderId},//模态展示页面的数据提交保存，模态展示的form ID
+            dataType:'json',
+            success:function(data){//boolean型的data，true就执行刷新table
+                $("#orderId").val(data.orderId);
+                $("#pname").val(data.pname);
+                $("#count").val(data.count);
+                $("#price").val(data.price);
+                $("#subtotal").val(data.subtotal);
+            },
+            error:function (){
+                alert("d1系统错误");
+            }
+        })
+        var url="addOrder.html";//模态窗口信息来自于addGoods.jsp
+        bootbox.dialog({
+            title:'修改商品',
+            message:createAddContent(url),//内容来源于url
+            closeButton: true,
+            buttons : {//页面下面产生保存 取消两个按钮
+                "success": {
+                    "label":"<iclass='icon-ok'></i> 保存",
+                    "className":"btn-sm btn-success",
+                    "callback": function() {
+                        $.ajax({
+                            url:'http://localhost:8088/drugUpdate',//saveGoods返回boolean型的json
+                            type:'post',
+                            data:$("#addForm").serialize(),//模态展示页面的数据提交保存，模态展示的form ID
+                            dataType:'json',
+                            success:function(){//boolean型的data，true就执行刷新table
+                                search();
+                            }
+                        });
+                    }
+                },
+                "cancel": {
+                    "label":"<iclass='icon-info'></i> 取消",
+                    "className":"btn-sm btn-danger",
+                    "callback": function() {
+                    }
+                }
+            }
+        });
+        inputfile();
+        var res;
+        function createAddContent(url){
+            $.ajax({
+                url:url,
+                async:false,
+                success:function(data){
+                    res = data;
+                }
+            });
+            return res;
+        }
+    }
+    /***********************************************************************************/
+
+    /*******************************************删除************************************/
+    function delDrug(orderId){
+        $.ajax({
+            url:"http://localhost:8088/delOrder",
+            data:{"orderId":orderId},
+            dataType:"json",
+            type:"post",
+            success:function(data){
+                if (data =true) {
+                    //配置一个透明的询问框
+                    layer.msg('删除成功', {
+                        time: 5000, //9s后自动关闭
+                    });
+                    search();
+                }else {
+                    layer.msg('删除失败', {
+                        time: 5000, //9s后自动关闭
+                    });
+                }
+            }
+        })
+
+    }
+
+    /***********************************************************************************/
+
+
+
+</script>
+</body>
+</html>

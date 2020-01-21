@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="static/commons/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/commons/datatable/DataTables-1.10.18/css/dataTables.bootstrap.min.css"/>
+    <link href="static/commons/fileinput/css/fileinput.min.css" rel="stylesheet"/>
+    <link href="static/commons/ztree/css/bootstrapStyle/bootstrapStyle.css" rel="stylesheet"/>
+    <link href="static/commons/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css" rel="stylesheet"/>
+    <link href="static/commons/bootstrapvalidator-master/dist/css/bootstrapValidator.min.css" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="static/commons/ace/css/font-awesome.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="static/commons/ace/css/ionicons.css"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="static/commons/ace/css/AdminLTE.css"/>
+    <link rel="stylesheet" href="static/commons/ace/css/skins/skin-blue.min.css"/>
+    <link rel="stylesheet" href="static/commons/ace/css/myCommon.css"/>
+    <link rel="stylesheet" href="static/commons/layui/css/layui.css"/>
+
+
+    <script type="text/javascript" src="static/commons/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="static/commons/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/commons/datatable/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="static/commons/datatable/DataTables-1.10.18/js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="static/commons/dateFormat.js"></script>
+    <script type="text/javascript" src="static/commons/js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="static/commons/bootbox/bootbox.min.js"></script>
+    <script type="text/javascript" src="static/commons/fileinput/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="static/commons/fileinput/js/locales/zh.js"></script>
+    <script type="text/javascript" src="static/commons/ztree/js/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="static/commons/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="static/commons/bootstrapvalidator-master/dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="static/commons/layui/layui.all.js" charset="utf-8"></script>
+
+
+    <!-- bootstrap-time -->
+    <link rel="stylesheet" href="static/commons/datetimepicker/css/bootstrap-datetimepicker.css"/>
+    <script src="static/commons/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="static/commons/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <!--富文本编辑器-->
+    <link rel="stylesheet" href="static/commons/kindeditor-4.1.11-zh-CN/kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" href="static/commons/kindeditor-4.1.11-zh-CN/kindeditor/plugins/code/prettify.css" />
+    <script charset="utf-8" src="static/commons/kindeditor-4.1.11-zh-CN/kindeditor/kindeditor-all.js"></script>
+    <script charset="utf-8" src="static/commons/kindeditor-4.1.11-zh-CN/kindeditor/lang/zh-CN.js"></script>
+    <script charset="utf-8" src="static/commons/kindeditor-4.1.11-zh-CN/kindeditor/plugins/code/prettify.js"></script>
+
+
+</head>
+<body>
+<div class="container-fulid">
+    <form class="form-horizontal" id="addForm">
+        <input type="text" name="orderId" id="orderId" />
+
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">商品名称</label>
+            <div class="col-sm-5">
+                <div id="proid" name="proid" class="selected">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price" class="col-sm-2 control-label">商品价格</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="price"  name="price" placeholder="10" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="count" class="col-sm-2 control-label">购买数量</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control " id="count" name="count" placeholder="购买数量">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="subtotal" class="col-sm-2 control-label">小计金额</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="subtotal"  name="subtotal" placeholder="20" readonly>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        queryAreaSelect();
+    })
+    //查询地区
+    function queryAreaSelect() {
+        $.post({
+            url: "http://localhost:8088/queryPro",
+            dataType: "json",
+            async:false,
+            success: function (rsr) {
+
+                var str = '<select id="proid"  onchange="queryAreaSelectTwo(this.value)" name="proid" class="form-control"  ><option value="-1">-请选择-</option>'
+                for (var i = 0; i < rsr.length; i++) {
+                        str += '<option  value="' + rsr[i].proid + '">' + rsr[i].pname + '</option>';
+                }
+
+                str += '</select>';
+                $("#proid").html(str);
+            },
+            error: function () {
+                alert("失败");
+            }
+        })
+    }
+
+    function queryAreaSelectTwo(proid) {
+        $.post({
+            url: "http://localhost:8088/queryProByid",
+            data:{"proid":proid},
+            dataType: "json",
+            async:false,
+            success: function (rsr) {
+                alert(JSON.stringify(rsr));
+              $("#price").val(rsr.price);
+                $("#count").val(rsr.count);
+              var aaa=rsr.price;
+              var bbb=rsr.count;
+              var ccc=rsr.subtotal;
+              ccc=aaa*bbb
+                $("#subtotal").val(ccc);
+            },
+            error: function () {
+                alert("失败");
+            }
+        })
+    }
+
+</script>
+
+</body>
+</html>
